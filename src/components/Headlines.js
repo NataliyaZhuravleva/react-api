@@ -16,18 +16,41 @@ class Headlines extends React.Component {
   render() {
     const { error, isLoading, headlines } = this.props;
     if (error) {
+    
       return <React.Fragment>Error: {error.message}</React.Fragment>;
     } else if (isLoading) {
       return <React.Fragment>Loading...</React.Fragment>;
     } else {
       return (
+       
         <React.Fragment>
           <h1>Headlines</h1>
           <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          {console.log(headlines)}
             {headlines.map((headline, index) =>
               <li key={index}>
-                <h3>{headline.title}</h3>
-                <p>{headline.abstract}</p>
+       
+                <h3> {headline.properties.name}</h3>
+           <p>{headline.properties.xid}</p>
+                {/* <p>{headline.properties.dist}</p> */}
+                {/* "name": "las vegas",
+                    "country": "US",
+                    "lat": 36.17497,
+                    "lon": -115.13722,
+                    "population": 623747,
+                    "timezone": "America/Los_Angeles", */}
               </li>
             )}
           </ul>
@@ -47,3 +70,8 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(Headlines);
 
+// "name": "las vegas",
+//     "country": "US",
+//     "lat": 36.17497,
+//     "lon": -115.13722,
+    
