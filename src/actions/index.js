@@ -15,9 +15,11 @@ export const getHeadlinesFailure = (error) => ({
 });
 
 export const makeApiCall = () => {
+ 
   return dispatch => {
     dispatch(requestHeadlines);
-    return fetch(`https://api.opentripmap.com/0.1/en/places/radius?radius=1000&lon=-115.13722&lat=36.17497&kinds=bars&apikey=${process.env.REACT_APP_API_KEY}`)
+    
+    return fetch(`https://api.opentripmap.com/0.1/en/places/radius?radius=600&lon=-115.13722&lat=36.17497&kinds=bars&apikey=${process.env.REACT_APP_API_KEY}`)
 
     // return fetch(`https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${process.env.REACT_APP_API_KEY}`)
     
@@ -28,11 +30,31 @@ export const makeApiCall = () => {
         (jsonifiedResponse) => {
           console.log(jsonifiedResponse.features);
           dispatch(getHeadlinesSuccess(jsonifiedResponse.features));//.results));
-          
         })
       .catch((error) => {
         dispatch(getHeadlinesFailure(error));
-      });
+      })
+  }
+}
+
+export const makeNextApiCall = (jsonifiedResponse) => {
+ 
+  return dispatch => {
+    dispatch(requestHeadlines);
+    const nextRequest=jsonifiedResponse.features.map(object=> {
+         
+      const xidNumber=object.properties.xid;
+      console.log(xidNumber)
+      fetch(`https://api.opentripmap.com/0.1/en/places/xid/${xidNumber}?apikey=${process.env.REACT_APP_API_KEY}`)
+      .then (response=>response.json()
+      .then (
+          (jsonifiedResponse) => {
+          dispatch(getHeadlinesSuccess(jsonifiedResponse));
+      })
+      )
+    })
+    console.log(nextRequest);
+    return nextRequest;
   }
 }
 //const xid=properties.xid;

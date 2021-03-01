@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { makeApiCall } from './../actions';
+import { makeApiCall, makeNextApiCall } from './../actions';
+
 
 class Headlines extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Headlines extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(makeApiCall());
+    dispatch(makeNextApiCall(this.props));
     
   }
 
@@ -26,24 +28,14 @@ class Headlines extends React.Component {
         <React.Fragment>
           <h1>Headlines</h1>
           <ul>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          {console.log(headlines)}
+            {console.log(headlines)}
             {headlines.map((headline, index) =>
               <li key={index}>
        
                 <h3> {headline.properties.name}</h3>
-           <p>{headline.properties.xid}</p>
+                  <p>{headline.properties.xid}</p>
+                  <p>{headline.properties.address.postcode}</p>
+
                 {/* <p>{headline.properties.dist}</p> */}
                 {/* "name": "las vegas",
                     "country": "US",
